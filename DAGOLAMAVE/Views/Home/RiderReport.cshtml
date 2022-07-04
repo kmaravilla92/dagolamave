@@ -1,0 +1,76 @@
+﻿@{
+    ViewData["Title"] = "Rider Report";
+    Rider Rider = ViewBag.Rider;
+}
+
+<div class="mt-5">
+    <div class="card">
+        <div class="row g-0 align-items-center">
+            <div class="col-md-4">
+                <div class="d-flex align-items-center h-100 rounded-start">
+                    <img class="img-fluid" src="~/images/rider.png" alt="Rider Profile Image" />
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="card-body p-5">
+                    <h1 class="card-title">@Rider.RiderName</h1>
+                    <div class="mb-2">
+                        <b>Total Earnings:</b>
+                        PHP @Rider.TotalDeliveryFeesCollectedToday.ToString("F")
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mt-3">
+    <h3>Orders</h3>
+    <div class="table-responsive p-5 bg-white">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Items</th>
+                    <th>Customer</th>
+                    <th>Rider</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            @{
+                var i = 1;
+            }
+            @foreach (Order Order in Rider.DeliveredOrders)
+            {
+
+                <tr>
+                    <td>@(i++)</td>
+                    <td>
+                        <ul class="list-unstyled">
+                            @foreach (MenuItem Item in Order.Items)
+                            {
+                                <li class="mb-2">
+                                    <img class="img-fluid" src="~/images/@Item.ImageName" alt="@Item.FoodName" width="64" height="64" />
+                                    @Item.FoodName - <em>PHP @Item.IndividualPrice.ToString("F")</em>
+                                </li>
+                            }
+                        </ul>
+                    </td>
+                    <td>
+                        @Order.OrderOwner.Name
+                    </td>
+                    <td>
+                        @Order.OrderRider.RiderName
+                    </td>
+                    <td>
+                        PHP @Order.GetTotalCost().ToString("F")
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+
+<div class="mt-3 text-end">
+    <a class="btn btn-secondary" asp-area="" asp-controller="Home" asp-action="Index">Go Back</a>
+</div>

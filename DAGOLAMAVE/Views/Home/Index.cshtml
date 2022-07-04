@@ -1,0 +1,154 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    Order Order = ViewBag.Order;
+    Customer Customer = Order.OrderOwner;
+    Address CustomerAddress = Customer.CustomerAddress;
+    Vendor Vendor = ViewBag.Vendor;
+    Rider Rider = ViewBag.Rider;
+}
+
+<div class="mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <h4 class="text-center">Good Day! I'am</h4>
+            <div class="card p-1">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <div class="d-flex align-items-center h-100 rounded-start image-container">
+                            <img class="img-fluid image" src="~/images/customer.png" alt="Customer Profile Image" width="200" height="200"/>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">@Customer.Name</h5>
+                            <div>
+                                <b>Address:</b>
+                                <address class="mb-1">
+                                    @CustomerAddress
+                                </address>
+                            </div>
+                            <div>
+                                <b class="d-block">Contact No:</b>
+                                <a href="tel:@Customer.PhoneNumber">
+                                    @Customer.PhoneNumber
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mt-5">
+    <h4 class="text-center">and I want to order the following items</h4>
+    <div class="row justify-content-center">
+        @foreach (MenuItem Item in Order.Items)
+        {
+            <div class="col-md-3">
+                <article class="card border-0 text-center h-100">
+                    <div class="image-container">
+                        <img class="image" src="~/images/@Item.ImageName" alt="@Item.FoodName" width="200" height="200" />
+                    </div>
+                    <div class="card-body">
+                        <h4 class="card-title">@Item.FoodName</h4>
+                        <p class="card-text">PHP @Item.IndividualPrice.ToString("F")</p>
+                    </div>
+                </article>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <h4 class="text-center">Hello, <em>@Customer.Name</em> let us process that for you</h4>
+            <div class="card p-1">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <div class="d-flex align-items-center h-100 rounded-start">
+                            <img class="img-fluid" src="~/images/logo.png" alt="Vendor Profile Image" width="200" height="200" />
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">@Vendor.VendorName</h5>
+                            <div>
+                                <b>Status:</b>
+                                @(Vendor.IsOpen ? "Open" : "Close")
+                            </div>
+                            <div>
+                                <b>Opening Hours:</b>
+                                @(Vendor.Is24Hours ? "24 Hours" : "Regular")
+                            </div>
+                            <div>
+                                <b>Address:</b>
+                                <address class="mb-1">
+                                    @Vendor.VendorAddress
+                                </address>
+                            </div>
+                            <div class="mt-3">
+                                <a class="btn btn-primary" asp-area="" asp-controller="Home" asp-action="VendorReport">View Profile</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <h4 class="text-center">Hello <em>@Rider.RiderName, please deliver these items to <em>@Customer.Name</em></em></h4>
+            <div class="card p-1">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <div class="d-flex align-items-center h-100 rounded-start image-container">
+                            <img class="img-fluid image" src="~/images/rider.png" alt="Rider Profile Image" width="200" height="200" />
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">@Rider.RiderName</h5>
+                            <div class="mt-3">
+                                <a class="btn btn-primary" asp-area="" asp-controller="Home" asp-action="RiderReport">View Profile</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mt-5">
+    <h4 class="mt-2 fst-italic text-center">Rider is now delivering the items to the customer.</h4>
+</div>
+
+<div class="mt-5">
+    <h4 class="text-center">The customer has received the following items</h4>
+    <div class="row justify-content-center">
+        @foreach (MenuItem Item in Order.Items)
+        {
+            <div class="col-md-3">
+                <article class="card border-0 text-center h-100">
+                    <div class="image-container">
+                        <img class="image" src="~/images/@Item.ImageName" alt="@Item.FoodName" width="200" height="200" />
+                    </div>
+                    <div class="card-body">
+                        <h4 class="card-title">@Item.FoodName</h4>
+                        <p class="card-text">PHP @Item.IndividualPrice.ToString("F")</p>
+                    </div>
+                </article>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="mt-5">
+    <h4 class="mt-2 text-center">Order complete. Thank you!</h4>
+</div>

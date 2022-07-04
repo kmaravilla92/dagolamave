@@ -1,0 +1,90 @@
+﻿@{
+    ViewData["Title"] = "Vendor Report";
+    Vendor Vendor = ViewBag.Vendor;
+}
+
+<div class="mt-5">
+    <div class="card">
+        <div class="row g-0 align-items-center">
+            <div class="col-md-4">
+                <div class="d-flex align-items-center h-100 rounded-start">
+                    <img class="img-fluid" src="~/images/logo.png" alt="Vendor Profile Image" />
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="card-body p-5">
+                    <h1 class="card-title">@Vendor.VendorName</h1>
+                    <div class="mb-2">
+                        <b>Address:</b>
+                        <address class="mb-1">
+                            @Vendor.VendorAddress
+                        </address>
+                    </div>
+                    <div class="mb-2">
+                        <b>Status:</b>
+                        @(Vendor.IsOpen ? "Open" : "Close")
+                    </div>
+                    <div class="mb-2">
+                        <b>Opening Hours:</b>
+                        @(Vendor.Is24Hours ? "24 Hours" : "Regular")
+                    </div>
+                    <div class="mb-2">
+                        <b>Total Sales:</b>
+                        PHP @Vendor.GetTotalSales().ToString("F")
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mt-3">
+    <h3>Orders</h3>
+    <div class="table-responsive p-5 bg-white">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Items</th>
+                    <th>Customer</th>
+                    <th>Rider</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            @{
+                var i = 1;
+            }
+            @foreach (Order Order in Vendor.OrdersForTheDay)
+            {
+
+                <tr>
+                    <td>@(i++)</td>
+                    <td>
+                        <ul class="list-unstyled">
+                            @foreach (MenuItem Item in Order.Items)
+                            {
+                                <li class="mb-2">
+                                    <img class="img-fluid" src="~/images/@Item.ImageName" alt="@Item.FoodName" width="64" height="64" />
+                                    @Item.FoodName - <em>PHP @Item.IndividualPrice.ToString("F")</em>
+                                </li>
+                            }
+                        </ul>
+                    </td>
+                    <td>
+                        @Order.OrderOwner.Name
+                    </td>
+                    <td>
+                        @Order.OrderRider.RiderName
+                    </td>
+                    <td>
+                        PHP @Order.GetTotalCost().ToString("F")
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+
+<div class="mt-3 text-end">
+    <a class="btn btn-secondary" asp-area="" asp-controller="Home" asp-action="Index">Go Back</a>
+</div>
